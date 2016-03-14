@@ -8,7 +8,7 @@ import os
 import time
 
 from wx import glcanvas
-import OpenGL
+import OpenGL   # openGL的库文件
 OpenGL.ERROR_CHECKING = False
 from OpenGL.GL import *
 
@@ -29,6 +29,8 @@ class animation(object):
 	def getPosition(self):
 		if self.isDone():
 			return self._end
+
+		# 此处公式无法理解，？？
 		f = (time.time() - self._startTime) / self._runTime
 		ts = f*f
 		tc = f*f*f
@@ -83,6 +85,8 @@ class glGuiControl(object):
 
 	def OnKeyChar(self, key):
 		pass
+
+
 
 class glGuiContainer(glGuiControl):
 	def __init__(self, parent, pos):
@@ -325,6 +329,8 @@ class glGuiPanel(glcanvas.GLCanvas):
 	def add(self, ctrl):
 		if self._container is not None:
 			self._container.add(ctrl)
+
+
 
 class glGuiLayoutButtons(object):
 	def __init__(self, parent):

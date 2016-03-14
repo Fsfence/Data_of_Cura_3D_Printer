@@ -1,9 +1,16 @@
+# -*- coding:utf-8 -*-
+
 """
 The objectScene module contain a objectScene class,
 this class contains a group of printableObjects that are located on the build platform.
 
 The objectScene handles the printing order of these objects, and if they collide.
 """
+
+# 这个objectScene模块包含一个objectScene类
+# 这个类包含一组定于在构建平台中的printableObjects 
+# 这个objectScene 掌握了物体的打印命令，除了他们是碰撞在一块的
+
 __copyright__ = "Copyright (C) 2013 David Braam - Released under terms of the AGPLv3 License"
 import random
 import numpy
@@ -15,6 +22,8 @@ class _objectOrder(object):
 	"""
 	Internal object used by the _objectOrderFinder to keep track of a possible order in which to print objects.
 	"""
+
+	# 内部的物体使用——objectOrderFinder来保存发现？？？？？？
 	def __init__(self, order, todo):
 		"""
 		:param order:	List of indexes in which to print objects, ordered by printing order.
@@ -108,6 +117,9 @@ class Scene(object):
 	The scene class keep track of an collection of objects on a build platform and their state.
 	It can figure out in which order to print them (if any) and if an object can be printed at all.
 	"""
+
+	# scene类保证了在构造平台上的聚集物的轨迹和他们的状态
+	# 它能算出打印他们的命令，如果被完全打印
 	def __init__(self, sceneView=None):
 		self._objectList = []
 		self._sizeOffsets = numpy.array([0.0,0.0], numpy.float32)
@@ -117,6 +129,7 @@ class Scene(object):
 		self._extruderOffset = [numpy.array([0,0], numpy.float32)] * 4
 
 		#Print order variables
+		# 打印命令变量
 		self._leftToRight = False
 		self._frontToBack = True
 		self._gantryHeight = 60
@@ -127,12 +140,14 @@ class Scene(object):
 		self._sceneView = sceneView
 
 	# update the physical machine dimensions
+	# 更新物理机器的规模
 	def updateMachineDimensions(self):
 		self._machineSize = numpy.array([profile.getMachineSettingFloat('machine_width'), profile.getMachineSettingFloat('machine_depth'), profile.getMachineSettingFloat('machine_height')])
 		self._machinePolygons = profile.getMachineSizePolygons()
 		self.updateHeadSize()
 
 	# Size offsets are offsets caused by brim, skirt, etc.
+	# ？？？需要理解Cura的作用
 	def updateSizeOffsets(self, force=False):
 		newOffsets = numpy.array(profile.calculateObjectSizeOffsets(), numpy.float32)
 		minExtruderCount = profile.minimalExtruderCount()
@@ -152,6 +167,7 @@ class Scene(object):
 			obj.setPrintAreaExtends(extends[len(obj._meshList) - 1])
 
 	#size of the printing head.
+	# 打印前头的大小
 	def updateHeadSize(self, obj = None):
 		xMin = profile.getMachineSettingFloat('extruder_head_size_min_x')
 		xMax = profile.getMachineSettingFloat('extruder_head_size_max_x')
@@ -171,6 +187,7 @@ class Scene(object):
 		if self._oneAtATime:
 			if not self._lastOneAtATime:
 				#print mode was changed by user. We need to reset that value to test with current scene content
+				# 用户改变打印模型。我们需要重置值来测试目前场景的？？？？？？？？？？
 				self._lastResultOneAtATime = True
 
 			for obj in self._objectList:
